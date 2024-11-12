@@ -255,7 +255,7 @@ public class Menuacesgerente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        MenuComida v2 = new MenuComida();
+        MenuCom v2 = new MenuCom();
         v2.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed

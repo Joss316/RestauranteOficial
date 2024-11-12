@@ -184,7 +184,7 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         MenuComida v2 = new MenuComida();
+         MenuCom v2 = new MenuCom();
         v2.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
