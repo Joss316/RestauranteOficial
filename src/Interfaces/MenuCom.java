@@ -1,6 +1,8 @@
 
 package Interfaces;
 
+import java.text.DecimalFormat;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,11 +16,48 @@ public class MenuCom extends javax.swing.JFrame {
      */
     public MenuCom() {
         initComponents();
+        
+        Tabla1.getColumnModel().getColumn(0).setPreferredWidth(30);
+        Tabla1.getColumnModel().getColumn(1).setPreferredWidth(200);
     }
     //agregar datos de la tabla
     public void addTable(int id, String descrip, int cant, Double precio  ){
         
-        DefaultTableModel tP = (DefaultTableModel) Tabla1.getModel();
+         DefaultTableModel tP = (DefaultTableModel) Tabla1.getModel();
+        DecimalFormat fd = new DecimalFormat("");
+        double precioTot = precio * cant;
+        String Total = fd.format(precioTot);
+        
+        //logica para que se agregue el producto a la tabla y se guarde en la misma fila
+        
+          
+        for(int fila = 0; fila < Tabla1.getRowCount(); fila++){
+            
+            if (descrip == Tabla1.getValueAt(fila,1)){
+                
+                tP.removeRow(Tabla1.convertRowIndexToModel(fila));
+            }
+        }
+       
+        Vector v = new Vector();
+        v.add(id);
+        v.add(descrip);
+        v.add(cant);
+        v.add(Total);
+        tP.addRow(v);
+        
+    }
+    
+    public void calculo(){
+    int numFilas = Tabla1.getRowCount();
+    Double tot =0.0;
+    
+        for(int i=0; i <numFilas; i++){
+            double evalua = Double.valueOf(Tabla1.getValueAt(i, 3).toString());
+            tot += evalua;
+        }
+        DecimalFormat fd = new DecimalFormat("$ ");
+        totaltext.setText(fd.format(tot));
     }
     
    
@@ -49,7 +88,7 @@ public class MenuCom extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        totaltext = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
@@ -74,24 +113,44 @@ public class MenuCom extends javax.swing.JFrame {
         });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos comida/sopa.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         etiq1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         etiq1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiq1.setText("0");
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos comida/hamburguesa.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         etiq2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         etiq2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiq2.setText("0");
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos comida/pizza.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         etiq3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         etiq3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiq3.setText("0");
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos comida/tac.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         etiq4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         etiq4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -102,20 +161,27 @@ public class MenuCom extends javax.swing.JFrame {
         etiq5.setText("0");
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos comida/papitas.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         etiq6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         etiq6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiq6.setText("0");
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos comida/ho.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         Tabla1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Descripcion", "Cantidad", "Precio "
@@ -149,9 +215,9 @@ public class MenuCom extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Money:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("00");
+        totaltext.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        totaltext.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        totaltext.setText("00");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -180,19 +246,24 @@ public class MenuCom extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3))
-                .addGap(40, 40, 40)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(totaltext, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
+                        .addGap(87, 87, 87)
                         .addComponent(jButton9))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
+                        .addGap(74, 74, 74)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +271,7 @@ public class MenuCom extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totaltext, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -351,6 +422,69 @@ public class MenuCom extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //codigo del boton y datos de manera local
+        //creamos variable local 
+        int i= Integer.valueOf(etiq1.getText());
+        ++i;
+        etiq1.setText(String.valueOf(i));
+        
+        addTable(1, "Sopa", i, 35.00);
+        
+        calculo();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //creamos variable local 
+        int i= Integer.valueOf(etiq2.getText());
+        ++i;
+        etiq2.setText(String.valueOf(i));
+        
+        addTable(2, "Hamburguesa", i, 40.00);
+        
+        calculo();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int i= Integer.valueOf(etiq3.getText());
+        ++i;
+        etiq3.setText(String.valueOf(i));
+        
+        addTable(3, "Pizza", i, 99.00);
+        
+        calculo();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int i= Integer.valueOf(etiq4.getText());
+        ++i;
+        etiq4.setText(String.valueOf(i));
+        
+        addTable(4, "Tacos", i, 30.00);
+        
+        calculo();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int i= Integer.valueOf(etiq5.getText());
+        ++i;
+        etiq5.setText(String.valueOf(i));
+        
+        addTable(5, "Papas Francesas", i, 80.00);
+        
+        calculo();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int i= Integer.valueOf(etiq6.getText());
+        ++i;
+        etiq6.setText(String.valueOf(i));
+        
+        addTable(6, "Hot Dogs", i, 65.00);
+        
+        calculo();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -408,7 +542,6 @@ public class MenuCom extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -416,5 +549,6 @@ public class MenuCom extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel totaltext;
     // End of variables declaration//GEN-END:variables
 }
