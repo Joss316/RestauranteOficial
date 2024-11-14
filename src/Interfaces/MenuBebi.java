@@ -1,6 +1,7 @@
 
 package Interfaces;
 
+import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -18,8 +19,10 @@ public class MenuBebi extends javax.swing.JFrame {
     public MenuBebi() {
         initComponents();
         
+        
         Tabla1.getColumnModel().getColumn(0).setPreferredWidth(30);
         Tabla1.getColumnModel().getColumn(1).setPreferredWidth(200);
+        
     }
     //agregar datos de la tabla
     public void addTable(int id, String descrip, int cant, Double precio  ){
@@ -157,7 +160,8 @@ public class MenuBebi extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(153, 204, 255));
 
-        Tabla1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Tabla1.setBackground(new java.awt.Color(161, 208, 236));
+        Tabla1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -165,21 +169,32 @@ public class MenuBebi extends javax.swing.JFrame {
             new String [] {
                 "ID", "Descripcion", "Cantidad", "Precio "
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(Tabla1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(116, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jScrollPane1)
+                .addGap(42, 42, 42))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         jPanel4.setBackground(new java.awt.Color(153, 204, 230));
@@ -316,7 +331,7 @@ public class MenuBebi extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(etiq5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(353, 353, 353)
+                .addGap(340, 340, 340)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -363,16 +378,16 @@ public class MenuBebi extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addContainerGap(83, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+                .addGap(58, 58, 58))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -444,10 +459,37 @@ public class MenuBebi extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void deletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletActionPerformed
+       
         DefaultTableModel tP = (DefaultTableModel) Tabla1.getModel();
-        int fil = Tabla1.getSelectedRow();
-        tP.removeRow(fil);
-        calculo();
+        String b = tP.getValueAt(Tabla1.getSelectedRow(), 0).toString();
+            
+            int fil = Tabla1.getSelectedRow();
+            tP.removeRow(fil);
+            calculo();
+            
+            //para borrar el contenido de el dinero que el cliente da y el cambio
+            moneyText.setText("");
+            cambioText.setText("");
+        
+            
+            // borrar la cantidad de productos que aparece en el label de cada producto
+        switch (b){
+            case "1" :                
+                etiq1.setText("0");
+                break;  
+            case "2" :                
+                etiq2.setText("0");
+                break; 
+             
+            case "3" :                
+                etiq4.setText("0");
+                break; 
+            case "4" :                
+                etiq5.setText("0");
+                break; 
+           
+            
+        }
         
     }//GEN-LAST:event_deletActionPerformed
 
