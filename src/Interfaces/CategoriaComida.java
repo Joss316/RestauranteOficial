@@ -196,13 +196,13 @@ public class CategoriaComida extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-              MenuBebidas v1= new MenuBebidas();
-              v1.setVisible(true);
-              this.dispose();
+        MenuBebi v1= new MenuBebi();
+        v1.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        MenuDesayunos v3 = new MenuDesayunos();
+        MenuDesay v3 = new MenuDesay();
         v3.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
